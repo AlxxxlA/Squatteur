@@ -1,6 +1,5 @@
-"help" :
-    help:   !help ou !help command, lies tes commandes ou l'aide concernant une commande en particulier
-    roll:   !roll : Roulette russe de 6 chambes
-    share:  !share lien : Partager un lien sur le sharly du chan
-    op:     !op : Donne les droits opérateur à tout le monde
-
+"help":
+    help:   "!help [command], liste les commandes ou l'aide concernant une commande en particulier. Les champs entre crochet [] son facultatifs"    
+    roll:   "!roll : Roulette russe de 6 chambes"
+    share:  "!share lien [tags, tags] : Partager un lien sur le shaarly du chan"
+    op:     "!op : Donne les droits opérateur à tout le monde"

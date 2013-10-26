@@ -8,7 +8,7 @@ import urllib2
 import yaml
 
 conf = yaml.load(file('conf.yaml'))
-
+help = yaml.load(file('help.yaml'))
 
 class Bot(ircbot.SingleServerIRCBot):
 
@@ -16,7 +16,7 @@ class Bot(ircbot.SingleServerIRCBot):
         ircbot.SingleServerIRCBot.__init__(self, [(conf['server']['host'], conf['server']['port'])], conf['server']['nick'], conf['server']['description'])
         
         self.caps_lock = ["Chuuut", "Hohé, hein, bon !", "Ouaich, cris pas !"]
-        
+        self.chambre = conf['roll']['chambre']
         
         
 # Connexion aux chans
@@ -57,7 +57,7 @@ class Bot(ircbot.SingleServerIRCBot):
             if random == clic:
                 serv.privmsg(canal, "**BANG**")
                 serv.kick(canal, auteur, "Touché")
-                self.chambre = 6
+                self.chambre = conf['roll']['chambre']
                 serv.privmsg(canal, "À qui le tour ?")
             else:
                 serv.privmsg(canal, "--CLIC--")
@@ -66,23 +66,31 @@ class Bot(ircbot.SingleServerIRCBot):
 # Partager un lien sur shaarly                
         if messages[0] == "!share":
             if len(messages) > 1:
-                    url = messages[1]
-		    get_params = {'token_auth' : conf['shaarly']['token'], 'post' : url}
-		    if len(messages) == 3:
-			get_params["tags"] = messages[2]
-                    print urllib.urlopen(conf['shaarly']['host']+urllib.urlencode(get_params))
-		    
+                url = messages[1]
+                get_params = {'token_auth' : conf['shaarly']['token'], 'post' : url}
+                if len(messages) == 3:
+                    get_params["tags"] = messages[2].replace(',', ' ')
+                if len (messages) == 4:
+                    get_params["description"] = message[4]
+                print urllib.urlopen(conf['shaarly']['host']+urllib.urlencode(get_params))
+
 
 ## Passer tous les participants en opérateur du chan
         if message.lower() == "!op":
             serv.mode(canal,"+o Grizby")
             print(message)
 
-        if messages[0].lower() == "!help":
+        if messages[0] == "!help":
             if len(messages) > 1:
-                if messages[1] == "roll":
-                    serv.privmsg(canal, "!roll : Roulette russe de 6 chambes")
+                command = messages[1]
+                for command in help['help'].keys():
+                    serv.privmsg(canal, help['help'][command])
+                    print "key: %s , value: %s" % (command, help['help'][command])
+                    print(command, help['help'][command])
+            else:
+                serv.privmsg(canal, help['help']['help'])
             print(messages)
+
             
 if __name__ == "__main__":
     Bot().start()
