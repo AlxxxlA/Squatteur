@@ -5,25 +5,29 @@ import ircbot
 from random import randrange
 import urllib
 import urllib2
+import yaml
+
+conf = yaml.load(file('conf.yaml'))
+
 
 class Bot(ircbot.SingleServerIRCBot):
 
     def __init__(self):
-        ircbot.SingleServerIRCBot.__init__(self, [("irc.freenode.net", 6667)], "Squatteur", "Un bot sachant squatter sur un chan est un bon squatteur")
+        ircbot.SingleServerIRCBot.__init__(self, [(conf['server']['host'], conf['server']['port'])], conf['server']['nick'], conf['server']['description'])
         
         self.caps_lock = ["Chuuut", "Hohé, hein, bon !", "Ouaich, cris pas !"]
-        self.chambre = 6
-        self.base = "http://shaarly.bhz.im/addlink.php?token_auth=token&post="
+        
+        
         
 # Connexion aux chans
     def on_welcome(self, serv, ev):
         serv.privmsg("nickserv", "identify DRYTPC12")
         print("Identify")
-        serv.join("#lesquat")
+        serv.join(conf['server']['channels'])
 
 # Si on se fait kick, on revient
     def on_kick(self, serv, ev):
-        serv.join("#lesquat")
+        serv.join(conf['server']['channels'])
 
 # Quand une action se passe sur le salon
     def on_join(self, serv, ev):
@@ -35,14 +39,15 @@ class Bot(ircbot.SingleServerIRCBot):
         """
         auteur = irclib.nm_to_n(ev.source())
         canal = ev.target()
-        message = ev.arguments()[0]
+	msg = ev.arguments()[0]
+        message = msg.lower()
         messages = message.split(' ')
         
-        if message.isupper() is True:
+        if msg.isupper() is True:
                 say = randrange(0, len(self.caps_lock))
                 serv.privmsg(canal, self.caps_lock[say])
         
-        if 'lol' in message.lower():
+        if 'lol' in message:
             serv.privmsg(canal, "On ne lol pas ici.")
 # Roulette russe
         if message.lower() == "!roll":
@@ -59,10 +64,14 @@ class Bot(ircbot.SingleServerIRCBot):
                 self.chambre = self.chambre - 1
 
 # Partager un lien sur shaarly                
-        if messages[0].lower() == "!share":
+        if messages[0] == "!share":
             if len(messages) > 1:
-                    url = messages[1].lower()
-                    urllib.urlopen(self.base+url)
+                    url = messages[1]
+		    get_params = {'token_auth' : conf['shaarly']['token'], 'post' : url}
+		    if len(messages) == 3:
+			get_params["tags"] = messages[2]
+                    print urllib.urlopen(conf['shaarly']['host']+urllib.urlencode(get_params))
+		    
 
 ## Passer tous les participants en opérateur du chan
         if message.lower() == "!op":
@@ -72,7 +81,7 @@ class Bot(ircbot.SingleServerIRCBot):
         if messages[0].lower() == "!help":
             if len(messages) > 1:
                 if messages[1] == "roll":
-                    serv.privmsg("#lesquat", "!roll : Roulette russe de 6 chambes")
+                    serv.privmsg(canal, "!roll : Roulette russe de 6 chambes")
             print(messages)
             
 if __name__ == "__main__":

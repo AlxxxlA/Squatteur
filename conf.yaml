@@ -1,4 +1,14 @@
-"conf" :
-    "shaarly":
-        url:
-        Token:
+"server":
+   host: "irc.freenode.net"
+   port: 6667
+   nick: "Squatteur"
+   description: "Un bot."
+   channels: "#lesquat"
+
+"shaarly":
+   host: "http://shaarly.bhz.im/addlink.php?"
+   token: "token"
+
+"roll":
+   chambre: 6
+
