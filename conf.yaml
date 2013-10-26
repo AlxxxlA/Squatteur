@@ -5,10 +5,15 @@
    description: "Un bot."
    channels: "#lesquat"
 
-"shaarly":
+"shaarli":
    host: "http://shaarly.bhz.im/addlink.php?"
    token: "token"
 
 "roll":
    chambre: 6
 
+"command":
+    shaarli: "!share"
+    op:      "!op"
+    help:    "!help"
+    roll:    "!roll"
