@@ -83,12 +83,12 @@ class Bot(ircbot.SingleServerIRCBot):
         if messages[0] == "!help":
             if len(messages) > 1:
                 command = messages[1]
-                for command in help['help'].keys():
-                    serv.privmsg(canal, help['help'][command])
-                    print "key: %s , value: %s" % (command, help['help'][command])
-                    print(command, help['help'][command])
+                for command in help.keys():
+                    if command == messages[1]:
+                        serv.privmsg(canal, help[command].encode('utf-8'))
             else:
-                serv.privmsg(canal, help['help']['help'])
+                serv.privmsg(canal, "Liste des commandes disponibles")
+                serv.privmsg(canal, help.keys())
             print(messages)
 
             
