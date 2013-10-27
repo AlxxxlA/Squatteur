@@ -81,10 +81,7 @@ class Bot(ircbot.SingleServerIRCBot):
 
 ## Passer tous les participants en opérateur du chan
         if messages[0] == conf['command']['op']:
-            print(users)
-            print("+o"*len(users)+' '.join(users))
             serv.mode(canal, "+"+"o"*len(users)+' '+' '.join(users))
-            print(message)
 
         if messages[0] == conf['command']['help']:
             if len(messages) > 1:
@@ -95,7 +92,6 @@ class Bot(ircbot.SingleServerIRCBot):
             else:
                 serv.privmsg(canal, "Liste des commandes disponibles")
                 serv.privmsg(canal, conf['command'].keys())
-            print(messages)
 
 # Transmet le lien à Yourls et renvoi le titre et le lien raccourcis
         if re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&#+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+').search(message):
@@ -104,9 +100,8 @@ class Bot(ircbot.SingleServerIRCBot):
             for url in urls:
                 get_params = {'signature': conf['yourls']['token'], 'action': 'shorturl', 'format': 'json', 'url': url}
                 res = simplejson.load(urllib.urlopen(conf['yourls']['host']+urllib.urlencode(get_params)))
-                print(conf['yourls']['host']+urllib.urlencode(get_params))
                 if res['statusCode'] == 200:
-                    serv.privmsg(canal, res['title']+" - "+res['shorturl'])
+                    serv.privmsg(canal, res['title'].encode('utf-8')+" - "+res['shorturl'].encode('utf-8'))
                 
                 
 
