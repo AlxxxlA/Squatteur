@@ -24,4 +24,11 @@ TODO :
 [Yourls]
   * ~~Lors de la publication d'un lien sur le chan, envoyer automatiquement à Yourls et retourner le titre de la page et le lien réduit~~
 
-  
+Installation :
+
+Pré-requis :
+  * python-irclib
+  * python-simplejson
+  * urllib
+
+Aucune installation nécesaire, éditer le fichier 'conf.yaml'.
