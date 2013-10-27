@@ -1,0 +1,22 @@
+"server":
+   host: "irc.freenode.net"
+   port: 6667
+   nick: ""
+   description: ""
+   channels: ""
+
+"shaarli":
+   host: ""
+   token: ""
+
+"roll":
+   chambre: 6
+
+"yourls":
+    host: "http://domain.com/yourls-api.php?"
+    token: ""
+"command":
+    shaarli: "!share"
+    op:      "!op"
+    help:    "!help"
+    roll:    "!roll"
