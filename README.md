@@ -18,11 +18,10 @@ Il ne sait pas (encore) :
 TODO :
   
 [shaarli]
-  * Récupérer les [tags] et la "description" quel que soit la position
+  * Récupérer les [tags] et la "description" quel que soit la position (regex)
   * Génération du token avec TOTP
-  * Suivre les redirections 301 / 302 pour récupération auto du titre / infos
 
 [Yourls]
-  * Lors de la publication d'un lien sur le chan, envoyer automatiquement à Yourls et retourner le titre de la page et le lien réduit
+  * ~~ Lors de la publication d'un lien sur le chan, envoyer automatiquement à Yourls et retourner le titre de la page et le lien réduit~~
 
   
