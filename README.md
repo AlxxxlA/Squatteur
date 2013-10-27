@@ -9,7 +9,7 @@ Pour modifier la description des commandes d'aide, éditer le fichier "help.yaml
 Il sait :
   - partager des liens sur shaarly (shaarli un peu custom)
   - raccourcir des liens automatiquement et renvoyer le lien et le titre de l'url
-  - faire de roulettes russes
+  - faire des roulettes russes
   - rendre les utilisateurs opérateurs sur un canal
 
 Il ne sait pas (encore) :
