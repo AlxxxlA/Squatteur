@@ -38,9 +38,9 @@ class Bot(ircbot.SingleServerIRCBot):
         """
         Réception des messages du chan
         """
-        auteur = irclib.nm_to_n(ev.source())
+        auteur = irclib.nm_to_n(ev.source()) 
         canal = ev.target()
-        users = self.channels[canal].users()
+        users = self.channels[canal].users() # On récupère les utilisateurs sur le chan
         msg = ev.arguments()[0]
         message = msg.lower()
         messages = message.split(' ')
@@ -69,9 +69,9 @@ class Bot(ircbot.SingleServerIRCBot):
         if messages[0] == conf['command']['shaarli']:
             if len(messages) > 1:
                 url = messages[1]
-                get_params = {'token_auth' : conf['shaarli']['token'], 'post' : url}
+                get_params = {'token_auth' : conf['shaarli']['token'], 'post' : url, 'tags' : auteur}
                 if len(messages) == 3:
-                    get_params["tags"] = messages[2].replace(',', ' ')
+                    get_params["tags"] = messages[2].replace(',', ' ')+" "+auteur
                 if len (messages) == 4:
                     get_params["description"] = message[4]
                 print urllib.urlopen(conf['shaarli']['host']+urllib.urlencode(get_params))
