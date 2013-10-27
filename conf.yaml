@@ -12,6 +12,9 @@
 "roll":
    chambre: 6
 
+"yourls":
+    host: "http://l.bhz.im/yourls-api.php?"
+    token: "6784af74c9"
 "command":
     shaarli: "!share"
     op:      "!op"

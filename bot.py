@@ -6,6 +6,8 @@ from random import randrange
 import urllib
 import urllib2
 import yaml
+import re
+import simplejson
 
 conf = yaml.load(file('conf.yaml'))
 help = yaml.load(file('help.yaml'))
@@ -94,6 +96,19 @@ class Bot(ircbot.SingleServerIRCBot):
                 serv.privmsg(canal, "Liste des commandes disponibles")
                 serv.privmsg(canal, conf['command'].keys())
             print(messages)
+
+# Transmet le lien à Yourls et renvoi le titre et le lien raccourcis
+        if re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&#+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+').search(message):
+            urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&#+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', message)
+            print(urls)
+            for url in urls:
+                get_params = {'signature': conf['yourls']['token'], 'action': 'shorturl', 'format': 'json', 'url': url}
+                res = simplejson.load(urllib.urlopen(conf['yourls']['host']+urllib.urlencode(get_params)))
+                print(conf['yourls']['host']+urllib.urlencode(get_params))
+                if res['statusCode'] == 200:
+                    serv.privmsg(canal, res['title']+" - "+res['shorturl'])
+                
+                
 
             
 if __name__ == "__main__":
