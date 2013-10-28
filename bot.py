@@ -70,14 +70,20 @@ class Bot(ircbot.SingleServerIRCBot):
 # Partager un lien sur shaarly                
         if messages[0] == conf['command']['shaarli']:
             if len(messages) > 1:
-                url = messages[1]
+                tags = re.findall('\[(.+)\]', message)
+                tags = ''.join(tags)
+                url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&#+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', message)
+                url = ''.join(url)
+                description = ''.join(re.findall('\"(.+)\"', msg))
                 get_params = {'token_auth' : conf['shaarli']['token'], 'post' : url, 'tags' : auteur}
-                if len(messages) == 3:
-                    get_params["tags"] = messages[2].replace(',', ' ')+" "+auteur
-                if len (messages) == 4:
-                    get_params["description"] = message[4]
-                print urllib.urlopen(conf['shaarli']['host']+urllib.urlencode(get_params))
-
+                if tags:
+                    get_params["tags"] = tags+" "+auteur
+                if description:
+                    get_params["description"] = description
+                res = urllib.urlopen(conf['shaarli']['host']+urllib.urlencode(get_params))
+                print(tags, url)
+                print(conf['shaarli']['host']+urllib.urlencode(get_params))
+                print(res.read())
 
 ## Passer tous les participants en opérateur du chan
         if messages[0] == conf['command']['op']:
