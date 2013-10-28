@@ -11,6 +11,7 @@ Il sait :
   - raccourcir des liens automatiquement et renvoyer le lien et le titre de l'url
   - faire des roulettes russes
   - rendre les utilisateurs opérateurs sur un canal
+  - dire des trucs inutiles
 
 Il ne sait pas (encore) :
   - faire le café
@@ -18,11 +19,7 @@ Il ne sait pas (encore) :
 TODO :
   
 [shaarli]
-  * Récupérer les [tags] et la "description" quel que soit la position (regex)
   * Génération du token avec TOTP
-
-[Yourls]
-  * ~~Lors de la publication d'un lien sur le chan, envoyer automatiquement à Yourls et retourner le titre de la page et le lien réduit~~
 
 Installation :
 
